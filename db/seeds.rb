@@ -21,6 +21,15 @@ posts = Post.all
   )
 end
 
+puts "#{Post.count}"
+Post.find_or_create_by!(title: "David's Post", body: "This is written by me")
+puts "#{Post.count}"
+
+puts "#{Comment.count}"
+post = Post.find_or_create_by!(title: "David's Post", body: "This is written by me")
+Comment.find_or_create_by!(post: post, body: "This comment is written by me")
+puts "#{Comment.count}"
+
 puts "Seed finished"
 puts "#{Post.count} posts created"
 puts "#{Comment.count} comments created"
