@@ -26,4 +26,9 @@ module RandomData
     letters.shuffle!
     letters[0,rand(3..8)].join
   end
+
+  def self.random_number
+    rand(0..10)
+  end
+
 end
