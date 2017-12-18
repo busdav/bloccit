@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
 
-  let(:my_question) { Question.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, resolved: true) }
+  let(:my_question) { Question.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, resolved: false) }
 
   describe "GET #index" do
     it "returns http success" do
@@ -10,29 +10,27 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to have_http_status(:success)
     end
 
-    it "assigns [my_post] to @posts" do
+    it "assigns [my_question] to @questions" do
      get :index
-     expect(assigns(:posts)).to eq([my_post])
+     expect(assigns(:questions)).to eq([my_question])
     end
   end
 
 
   describe "GET #show" do
     it "returns http success" do
-# #16
-      get :show, params: { id: my_post.id }
+      get :show, params: { id: my_question.id }
       expect(response).to have_http_status(:success)
     end
+    
     it "renders the #show view" do
-# #17
-      get :show, params: { id: my_post.id }
+      get :show, params: { id: my_question.id }
       expect(response).to render_template :show
     end
 
-    it "assigns my_post to @post" do
-      get :show, params: { id: my_post.id }
-# #18
-      expect(assigns(:post)).to eq(my_post)
+    it "assigns my_question to @question" do
+      get :show, params: { id: my_question.id }
+      expect(assigns(:question)).to eq(my_question)
     end
   end
 
@@ -43,147 +41,90 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to have_http_status(:success)
     end
 
-# #2
     it "renders the #new view" do
       get :new
       expect(response).to render_template :new
     end
 
-# #3
-    it "instantiates @post" do
+    it "instantiates @question" do
       get :new
-      expect(assigns(:post)).not_to be_nil
+      expect(assigns(:question)).not_to be_nil
     end
   end
 
   describe "POST #create" do
-# #4
-    it "increases the number of Post by 1" do
-      expect{ post :create, params: { post: { title: RandomData.random_sentence, body: RandomData.random_paragraph } } }.to change(Post,:count).by(1)
+    it "increases the number of Question by 1" do
+      expect{ post :create, params: { question: { title: RandomData.random_sentence, body: RandomData.random_paragraph, resolved: false } } }.to change(Question,:count).by(1)
     end
 
-# #5
-    it "assigns the new post to @post" do
-      post :create, params: { post: { title: RandomData.random_sentence, body: RandomData.random_paragraph } }
-      expect(assigns(:post)).to eq Post.last
+    it "assigns the new question to @question" do
+      post :create, params: { question: { title: RandomData.random_sentence, body: RandomData.random_paragraph, resolved: false } }
+      expect(assigns(:question)).to eq Question.last
     end
 
-# #6
     it "redirects to the new post" do
-      post :create, params: { post: { title: RandomData.random_sentence, body: RandomData.random_paragraph } }
-      expect(response).to redirect_to Post.last
+      post :create, params: { question: { title: RandomData.random_sentence, body: RandomData.random_paragraph, resolved: false } }
+      expect(response).to redirect_to Question.last
     end
   end
 
   describe "GET #edit" do
     it "returns http success" do
-      get :edit, params: { id: my_post.id }
+      get :edit, params: { id: my_question.id }
       expect(response).to have_http_status(:success)
     end
 
     it "renders the #edit view" do
-      get :edit, params: { id: my_post.id }
+      get :edit, params: { id: my_question.id }
       expect(response).to render_template :edit
     end
 
-    it "assigns post to be updated to @post" do
-      get :edit, params: { id: my_post.id }
+    it "assigns question to be updated to @question" do
+      get :edit, params: { id: my_question.id }
 
-      post_instance = assigns(:post)
+      question_instance = assigns(:question)
 
-      expect(post_instance.id).to eq my_post.id
-      expect(post_instance.title).to eq my_post.title
-      expect(post_instance.body).to eq my_post.body
+      expect(question_instance.id).to eq my_question.id
+      expect(question_instance.title).to eq my_question.title
+      expect(question_instance.body).to eq my_question.body
     end
   end
 
   describe "PUT #update" do
-    it "updates post with expected attributes" do
+    it "updates question with expected attributes" do
       new_title = RandomData.random_sentence
       new_body = RandomData.random_paragraph
+      new_resolved = true
 
-      put :update, params: { id: my_post.id, post: {title: new_title, body: new_body } }
+      put :update, params: { id: my_question.id, question: {title: new_title, body: new_body, resolved: new_resolved } }
 
-      updated_post = assigns(:post)
-      expect(updated_post.id).to eq my_post.id
-      expect(updated_post.title).to eq new_title
-      expect(updated_post.body).to eq new_body
+      updated_question = assigns(:question)
+      expect(updated_question.id).to eq my_question.id
+      expect(updated_question.title).to eq new_title
+      expect(updated_question.body).to eq new_body
+      expect(updated_question.resolved).to eq new_resolved
     end
 
-    it "redirects to the updated post" do
+    it "redirects to the updated question" do
       new_title = RandomData.random_sentence
       new_body = RandomData.random_paragraph
+      new_resolved = true
 
-      put :update, params: { id: my_post.id, post: {title: new_title, body: new_body } }
-      expect(response).to redirect_to my_post
+      put :update, params: { id: my_question.id, question: {title: new_title, body: new_body, resolved: new_resolved } }
+      expect(response).to redirect_to my_question
     end
   end
 
   describe "DELETE #destroy" do
-    it "deletes the post" do
-      delete :destroy, params: { id: my_post.id }
-# #6
-      count = Post.where({id: my_post.id}).size
+    it "deletes the question" do
+      delete :destroy, params: { id: my_question.id }
+      count = Question.where({id: my_question.id}).size
       expect(count).to eq 0
     end
 
-    it "redirects to posts index" do
-      delete :destroy, params: { id: my_post.id }
-# #7
-      expect(response).to redirect_to posts_path
+    it "redirects to questions index" do
+      delete :destroy, params: { id: my_question.id }
+      expect(response).to redirect_to questions_path
     end
   end
 end
-
-
-
-#   describe "GET #index" do
-#     it "returns http success" do
-#       get :index
-#       expect(response).to have_http_status(:success)
-#     end
-#   end
-#
-#   describe "GET #show" do
-#     it "returns http success" do
-#       get :show
-#       expect(response).to have_http_status(:success)
-#     end
-#   end
-#
-#   describe "GET #new" do
-#     it "returns http success" do
-#       get :new
-#       expect(response).to have_http_status(:success)
-#     end
-#   end
-#
-#   describe "GET #create" do
-#     it "returns http success" do
-#       get :create
-#       expect(response).to have_http_status(:success)
-#     end
-#   end
-#
-#   describe "GET #edit" do
-#     it "returns http success" do
-#       get :edit
-#       expect(response).to have_http_status(:success)
-#     end
-#   end
-#
-#   describe "GET #update" do
-#     it "returns http success" do
-#       get :update
-#       expect(response).to have_http_status(:success)
-#     end
-#   end
-#
-#   describe "GET #destroy" do
-#     it "returns http success" do
-#       get :destroy
-#       expect(response).to have_http_status(:success)
-#     end
-#   end
-#
-# end
