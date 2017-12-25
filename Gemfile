@@ -5,6 +5,8 @@ source 'https://rubygems.org'
    "https://github.com/#{repo_name}.git"
  end
 
+ruby '2.3.4'
+
  # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
  gem 'rails', '~> 5.1.2'
 
@@ -12,7 +14,7 @@ source 'https://rubygems.org'
  group :production do
    # Use pg as the production database for Active Record
    gem 'pg'
-   gem 'rails_12factor'
+   gem 'rails_12factor'ß
  end
 
  # #2
