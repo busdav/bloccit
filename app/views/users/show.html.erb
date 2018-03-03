@@ -19,8 +19,14 @@
    </div>
  </div>
  
- <h2>Posts</h2>
- <%= render @user.posts %>
- 
- <h2>Comments</h2>
- <%= render @user.comments %>
+ <% if posts_or_comments_for_user?(@user) %>
+  <h2>Posts</h2>
+  <%= render @user.posts %>
+  
+  <h2>Comments</h2>
+  <%= render @user.comments %>
+ <% else %>
+  <div class="media-body">
+    <%= @user.name %> has not submitted any posts yet.
+  </div>
+ <% end %>
