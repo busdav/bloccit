@@ -19,6 +19,7 @@
    </div>
  </div>
  
+
  <% if posts_for_user?(@user) %>
   <h2>Posts</h2>
   <%= render @user.posts %>
@@ -43,6 +44,4 @@
  <% else %>
   <div class="media-body">
     <%= @user.name %> has not favorited any posts yet.
-  </div>
  <% end %> 
- 
