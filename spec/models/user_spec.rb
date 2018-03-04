@@ -7,6 +7,8 @@ RSpec.describe User, type: :model do
   it { is_expected.to have_many(:comments) }
   it { is_expected.to have_many(:votes) }
   it { is_expected.to have_many(:favorites) }
+  it { is_expected.to have_many(:favorite_posts) }
+
 
 
 
@@ -118,22 +120,5 @@ RSpec.describe User, type: :model do
        expected_gravatar = "http://gravatar.com/avatar/bb6d1172212c180cfbdb7039129d7b03.png?s=48"
        expect(known_user.avatar_url(48)).to eq(expected_gravatar)
    end
-  end
-  
-    describe "#favorite_for_user(user)" do
-      let(:user_without_favorites) { create(:user) }
-      let(:post) { create(:post) }
-
-      before do
-        @favorite = user.favorites.create!(post_id: post.id)
-      end
-  
-      it "returns empty array if the user has not favorited any posts" do
-        expect(user_without_favorites.favorites_for_user(user_without_favorites)).to be_empty
-      end
-  
-      it "returns all posts favorited by the user if any" do
-        expect(user.favorites_for_user(user)).to include(@favorite)
-      end
   end
 end
