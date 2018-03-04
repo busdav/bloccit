@@ -32,7 +32,9 @@ class User < ApplicationRecord
     "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{size}"
   end
   
-  def favorite_for_user(user)
-    favorites.where(user_id: user.id)
+  def favorites_for_user(user)
+    @user_favorites = favorites.where(user_id: user.id)
+    # favorites_by_user = 
+    # posts.where(id: favorites_by_user.post_id)
   end
 end

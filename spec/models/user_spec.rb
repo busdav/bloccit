@@ -129,11 +129,11 @@ RSpec.describe User, type: :model do
       end
   
       it "returns empty array if the user has not favorited any posts" do
-        expect(user_without_favorites.favorite_for_user(user_without_favorites)).to be_empty
+        expect(user_without_favorites.favorites_for_user(user_without_favorites)).to be_empty
       end
   
       it "returns all posts favorited by the user if any" do
-        expect(user.favorite_for_user(user)).to include(@favorite)
+        expect(user.favorites_for_user(user)).to include(@favorite)
       end
   end
 end
