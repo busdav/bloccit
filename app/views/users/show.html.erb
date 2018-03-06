@@ -20,28 +20,11 @@
  </div>
  
 
- <% if posts_for_user?(@user) %>
-  <h2>Posts</h2>
-  <%= render @user.posts %>
- <% else %>
-  <div class="media-body">
-    <%= @user.name %> has not submitted any posts yet.
-  </div>
- <% end %>
+
+
+
+ <%= show_user_posts(@user) %>
  
- <% if comments_for_user?(@user) %>
-  <h2>Comments</h2>
-  <%= render @user.comments %>
- <% else %>
-  <div class="media-body">
-    <%= @user.name %> has not submitted any comments yet.
-  </div>
- <% end %>
+ <%= show_user_comments(@user) %>
  
- <% if favorite_posts_for_user?(@user) %>
-  <h2>Favorite Posts</h2>
-  <%= render @user.favorite_posts %>
- <% else %>
-  <div class="media-body">
-    <%= @user.name %> has not favorited any posts yet.
- <% end %> 
+ <%= show_user_favorited_posts(@user) %>
